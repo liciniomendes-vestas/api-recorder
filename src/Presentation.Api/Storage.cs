@@ -4,7 +4,7 @@ namespace Presentation.Api;
 
 public class Storage : IDisposable
 {
-    private readonly SqliteConnection _dbConnection = new($"Data Source={DateTime.UtcNow:O}.db;Cache=Shared");
+	private readonly SqliteConnection _dbConnection = new($"Data Source={DateTime.UtcNow:yyyyMMddHHmmssttt}.sqlite;Cache=Shared");
     
     public Task AddAsync(Request request)
     {

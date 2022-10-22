@@ -33,7 +33,7 @@ app.Use(
         // we don't care about this route
         if (IsIgnoredRoute(context.Request.Path)) return; 
             
-        context.Request.EnableBuffering();
+        context.Request.EnableBuffering(1024 * 300);
         
         var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
         var request = new Request(
