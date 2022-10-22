@@ -12,8 +12,8 @@
     "Presentation.Api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchBrowser": false,
+      "launchUrl": "/",
       "applicationUrl": "https://localhost:7207;http://localhost:5153",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

@@ -4,34 +4,22 @@ using Presentation.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 var ignoredRoutes = new[]
 {
     "/hello",
 };
 
-Func<string, bool> existInRoutes = s =>
+bool IsIgnoredRoute(string route)
 {
     for (var i = 0; i < ignoredRoutes.Length; i++)
     {
-        if (ignoredRoutes[i].Equals(s, StringComparison.InvariantCultureIgnoreCase)) return true;
+        if (ignoredRoutes[i].StartsWith(route, StringComparison.InvariantCultureIgnoreCase)) return true;
     }
 
     return false;
-};
+}
 
 var storage = new Storage();
 await storage.InitializeAsync();
@@ -40,7 +28,7 @@ app.Use(
     async (context, next) =>
     {
         // we don't care about this route
-        if (existInRoutes(context.Request.Path)) return; 
+        if (IsIgnoredRoute(context.Request.Path)) return; 
             
         context.Request.EnableBuffering();
         
@@ -60,28 +48,6 @@ app.Use(
     }
 );
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapGet("/", () => "This API stores all requests to a database");
 
 app.Run();
-
-record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
