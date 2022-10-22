@@ -8,7 +8,10 @@ var app = builder.Build();
 
 var ignoredRoutes = new[]
 {
-    "/hello",
+    "/api/FullReleasePackages",
+    "/api/ReleasePackages",
+    "/api/RemoteBackups",
+    "/api/TargetDataPackages",
 };
 
 bool IsIgnoredRoute(string route)
