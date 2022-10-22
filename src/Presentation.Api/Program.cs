@@ -53,4 +53,6 @@ app.Use(
 
 app.MapGet("/", () => "This API stores all requests to a database");
 
-app.Run();
+await app.RunAsync();
+
+storage.Dispose();
