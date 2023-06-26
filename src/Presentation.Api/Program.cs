@@ -38,7 +38,7 @@ app.Use(
         var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
         var request = new Request(
             context.Request.Method,
-            context.Request.Path,
+            context.Request.Path + context.Request.QueryString,
             JsonSerializer.Serialize(context.Request.Headers),
             body
         );
